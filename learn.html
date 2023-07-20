@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <style>
+        .rockButton{
+            background-color: transparent;
+            border:none;
+        }
+        .rockImage{
+            width:250px;
+            mix-blend-mode: multiply;
+            filter: contrast(1.5);
+        }
+        .p1{
+            font-size: 40px;
+            font-weight: bold;
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            word-spacing: 20px;
+        }
+        .js-result{
+            font-size: 20px;
+            
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            word-spacing: 20px;
+        }
+        .js-result2{
+            font-size: 30px;
+            
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            word-spacing: 20px;
+        }
+        .js-score{
+            font-size: 20px;
+           
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            word-spacing: 20px;
+        }
+        .buttonReset{
+            background-color: transparent;
+           border-width: 1px;
+           padding:10px 20px;
+           font-size: 20px;
+          
+           background-color: rgb(7, 6, 6);
+           border-radius: 30px;
+           color:rgb(255, 255, 255);
+        }
+       </style>
+    </head>
+    <body>
+        <p class="p1">ROCK PAPER SCISSORS GAME</p>
+        <button onclick="
+            computermove();
+            urMove='Rock';
+            getResult();
+            alertscore();
+        " class="rockButton"><img class="rockImage"src="https://nehalhazem.github.io/rockPaperScissors.io/img/rock.png" alt="ROCK">
+        
+       </button>
+
+       <button onclick="
+            computermove();
+            urMove='Paper';
+            getResult();
+            alertscore();
+        " class="rockButton"><img class="rockImage"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEjyMFecj1quL7X6lCiyQsga2mM53KLmwB4R-AaDP_7cUjS1ECfjim7lzlavUWqyfpfDw&usqp=CAU" alt="PAPER">
+       </button>
+
+       <button onclick="
+            computermove();
+            urMove='Scissor';
+            getResult();
+            alertscore();
+       " class="rockButton"><img class="rockImage"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTemzMtxIgZVo_Nviqtk_7iNA31fKis7gr6gyZboIN-K3iZL-wdn9omAMgXD-D39uvv67E&usqp=CAU" alt="Scissor">
+      
+       </button>
+
+       <p class="js-result"></p>
+       <p class="js-result2"></p>
+       <p class="js-score"></p>
+
+       <button onclick="
+            score.wins=0
+            score.loses=0
+            score.ties=0
+            localStorage.removeItem('scores');
+            showScore();
+       " class="buttonReset">
+        Reset
+       </button>
+
+    </body>
+    <script>
+        let computerMove="";
+        let ran;
+        let result='';
+        let urMove='';
+        let score=JSON.parse(localStorage.getItem('scores'))||{
+                wins:0,loses:0,ties:0
+            };
+            showScore();
+        // To get the Computer Move (function)
+        function computermove(){
+            ran=Math.random();
+            if(ran<=0.3&&ran>0)
+            computerMove='Rock';
+            else if(ran>0.3&&ran<=0.6)
+            computerMove='Paper';
+            else 
+            computerMove='Scissor';
+    }
+     // To get the Result (function)
+    function getResult(){
+        if(urMove==='Rock'){
+            if(computerMove==='Rock'){
+            result='Tie';
+            score.ties++;
+            }
+            else if(computerMove==='Paper'){
+            result='You Lose';
+            score.lose++;
+            }
+            else{
+            result='You Won';
+            score.wins++;
+            }
+        }
+
+        if(urMove==='Paper'){
+            if(computerMove==='Rock'){
+            result='You Won';
+            score.wins++;
+        }
+            else if(computerMove==='Paper'){
+            result='Tie';
+            score.ties++;
+            }
+            else{
+            result='You Lose';
+            score.loses++;
+            }
+        }
+        if(urMove==='Scissor'){
+            if(computerMove==='Rock'){
+            result='You Lose';
+            score.loses++;
+            }
+            else if(computerMove==='Paper'){
+            result='You Won';
+            score.wins++;
+            }
+            else{
+            result='Tie';
+            score.ties++;
+            }
+        }
+            localStorage.setItem('scores',JSON.stringify(score));
+
+            showScore();
+       
+        //    alert(`You Picked ${urMove}. Computer Picked ${computerMove}. ${result}\nwins.count-${score.wins} loses.count-${score.loses} tie.count-${score.ties}`);                   
+    
+    }  
+      function showScore(){
+                document.querySelector('.js-result').innerHTML=`${result} `;
+                 document.querySelector('.js-result2').innerHTML=`You Picked ${urMove} : Computer Picked ${computerMove}`;
+                document.querySelector('.js-score').innerHTML=`wins.count:${score.wins} loses.count:${score.loses} tie.count:${score.ties}`;
+      }
+     
+    </script>
+</html>
